@@ -35,7 +35,7 @@
 -   `php artisan db:seed --class=SeederNameTableSeeder` -seed a specific seed
 -   `php artisan migrate:refresh --seed` -drop all db and then create new one w/ seed
 -   `php artisan make:resource Users --collection` -create new collection
--   `php artisan code:models` -reflect the table into models
+-   `php artisan code:models` -reflect the table into models +composer require reliese/laravel
 -   `composer require tymon/jwt-auth "1.0.*"` -JWT authentication
 -   `composer require ifsnop/mysqldump-php"` -https://github.com/ifsnop/mysqldump-php export DB
 

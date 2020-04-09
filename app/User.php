@@ -2,6 +2,9 @@
 
 namespace App;
 
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -11,32 +14,62 @@ class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password',
-    ];
+    protected $table = 'users';
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
+	protected $casts = [
+		'Gender' => 'int',
+		'city' => 'int',
+		'qualification' => 'int',
+		'department' => 'int',
+		'active' => 'int'
+	];
 
-    /**
-     * The attributes that should be cast to native types.
-     *
-     * @var array
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+	protected $dates = [
+		'email_verified_at',
+		'birth'
+	];
+
+	protected $hidden = [
+		'password',
+		'remember_token'
+	];
+
+	protected $fillable = [
+		'name',
+		'email',
+		'email_verified_at',
+		'password',
+		'Gender',
+		'birth',
+		'city',
+		'qualification',
+		'department',
+		'experienceYears',
+		'address',
+		'active',
+		'remember_token'
+	];
+
+	public function city()
+	{
+		return $this->belongsTo(city::class, 'city');
+	}
+
+	public function department()
+	{
+		return $this->belongsTo(department::class, 'department');
+	}
+
+	public function qualification()
+	{
+		return $this->belongsTo(qualification::class, 'qualification');
+	}
+
+	public function jobs()
+	{
+		return $this->belongsToMany(job::class, 'job_users', 'UserID', 'jobID')
+					->withTimestamps();
+	}
 
      /**
      * Get the identifier that will be stored in the subject claim of the JWT.
